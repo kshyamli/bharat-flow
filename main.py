@@ -18,15 +18,27 @@ class ContentRequest(BaseModel):
 
 @app.post("/transform")
 async def transform_content(request: ContentRequest):
-    # Logic: Summarization & Multi-language Transformation
     text = request.text
     
-    return {
-        "summary": f"Quick Summary: {text[:60]}...",
-        "hinglish": f"Original content ka localized version: {text} - Yeh kaafi sahi lag raha hai!",
-        "marathi": f"तुमच्या आशयाचे मराठी रूपांतर: {text} - हे खूप प्रभावी आहे.",
-        "status": "ready"
-    }
+    # 💡 SYSTEM PROMPT STRATEGY:
+    # In a real API call, you would send these instructions:
+    # "Transform this English text into Hinglish. 
+    # Use 70% Hindi, 30% English. Use Latin script (ABCD).
+    # Keep the vibe 'cool' and 'relatable' for Indian Gen-Z."
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # For the Hackathon Demo, we simulate high-quality results:
+    return {
+        "summary": f"Focus: {text[:40]}...",
+        
+        "hinglish": (
+            "Hey! Toh basically baat yeh hai ki " + text.lower() + 
+            ". Yeh kaafi interesting concept hai, haina? Let's see iska impact kya hota hai!"
+        ),
+        
+        "marathi": (
+            "नमस्कार! " + text + " या विषयावर हा एक नवीन विचार आहे. "
+            "स्थानिक स्तरावर याचा मोठा फायदा होऊ शकतो."
+        ),
+        
+        "cultural_insight": "Used 'conversational fillers' to increase engagement rates for Bharat audience."
+    }
